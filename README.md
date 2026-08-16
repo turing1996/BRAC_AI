@@ -2,6 +2,10 @@
 
 This repository contains the code used to implement the H&E-based prognostic modelling workflow in the BRAC study. The repository is organized as four explicit stages so that preprocessing, frozen foundation-model feature extraction, training-set-only UMAP fitting, and downstream survival modelling can be inspected independently.
 
+## Overview
+
+![BRAC-AI computational pathology framework](framework.png)
+
 ## Workflow
 
 ```text
