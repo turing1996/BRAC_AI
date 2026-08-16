@@ -1,0 +1,7 @@
+torch>=2.1
+torchvision>=0.16
+numpy>=1.24,<3
+Pillow>=9
+tqdm>=4.66
+openslide-python>=1.3
+timm>=0.9

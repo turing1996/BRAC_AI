@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brac-ai"
+version = "1.0.0"
+description = "BRAC-AI H&E + morphology-map OS/DFS survival model"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "torch>=2.1",
+  "torchvision>=0.16",
+  "numpy>=1.24,<3",
+  "Pillow>=9",
+  "PyYAML>=6",
+  "matplotlib>=3.7",
+  "tqdm>=4.66",
+  "scipy>=1.10",
+]
+
+[project.scripts]
+brac-train = "brac_ai.train:main"
+brac-evaluate = "brac_ai.evaluate:main"
+brac-gradcam = "brac_ai.gradcam:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

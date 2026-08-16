@@ -1,0 +1,69 @@
+# BRAC-AI manuscript survival-model configuration
+# Explicit configuration; no inheritance.
+
+data:
+  tcga_train: data/TCGA/train
+  tcga_validation: data/TCGA/validation
+  external: data/CBCGA
+  morphology_subdir: umap
+
+model:
+  image_size: 384
+  pretrained_weights: pretrained/B_16_imagenet1k.pth
+
+  # Morphology-MLP branch
+  morphology_channels: 2
+  morphology_patch_size: 16
+  morphology_hidden_dim: 1024
+  morphology_depth: 2
+  morphology_dropout: 0.10
+
+  # Cross-modal fusion
+  cross_attention_heads: 12
+  cross_attention_dropout: 0.15
+  cross_attention_gamma_init: 0.10
+
+  # Cox prediction heads
+  head_hidden_dim: 128
+  head_dropout: 0.30
+
+training:
+  seed: 42
+  device: auto
+  epochs: 30
+  batch_size: 4
+  eval_batch_size: 2
+  num_workers: 0
+
+  cox_ties: efron
+  patient_risk_aggregation: mean
+  full_risk_updates_per_epoch: 1
+
+  backbone_learning_rate: 1.0e-5
+  morphology_learning_rate: 1.0e-5
+  head_learning_rate: 1.0e-5
+  weight_decay: 1.0e-4
+  gradient_clip: 1.0
+
+  # No warmup; fine-tune the final 2 H&E ViT blocks from epoch 1.
+  # H&E patch embedding and earlier transformer blocks remain frozen.
+  freeze_backbone_epochs: 0
+  unfreeze_last_blocks: 2
+
+  lr_patience: 4
+  lr_factor: 0.5
+  early_stopping_patience: 8
+  early_stopping_min_delta: 0.0
+
+  amp: true
+  deterministic_algorithms: true
+  allow_existing_output: false
+
+  progress:
+    enabled: true
+    mininterval_seconds: 1.0
+    leave_batch_bars: false
+    update_curves_each_epoch: true
+
+  output_dir: outputs/vit_morphology_mlp_cross_attention
+
